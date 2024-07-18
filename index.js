@@ -46,7 +46,6 @@ app.post('/list', async (req,res) =>{
   try {    
     await client.connect();    
     const collection = await client.db("TwitchPanel").collection("UsersLists");
-      
     const data = await collection.updateOne({id: req.body.id}, {$set: {
       id: req.body.id,
       list: req.body.list,
@@ -82,6 +81,6 @@ app.get('/list', async (req, res) =>{
    
 })
 
-app.listen(process.env.PORT || 8081,
-  console.log('Сервер запущен с портом 8081')
+app.listen(process.env.PORT || 8080,
+  console.log('Сервер запущен с портом 8080')
 );
