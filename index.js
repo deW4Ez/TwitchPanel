@@ -24,7 +24,7 @@ app.use(cors());
 app.use(async (req, res, next) => {
   try {
     const auth = req.get('Authorization');
-  
+    console.log(auth)
     if (!auth.startsWith('Bearer ')) {
       res.sendStatus(403);
       // Данные авторизации не были предоставлены
