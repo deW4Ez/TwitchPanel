@@ -22,16 +22,15 @@ app.use(express.json());
 app.use(cors());
 
 app.use(async (req, res, next) => {
-  const auth = req.get('Authorization');
+  try {
+    const auth = req.get('Authorization');
   
-  if (!auth.startsWith('Bearer ')) {
-    res.sendStatus(403);
-    // Данные авторизации не были предоставлены
-    return;
-  }
-
-  const token = auth.slice(7); // Пропускаем 'Bearer '
-  try {    
+    if (!auth.startsWith('Bearer ')) {
+      res.sendStatus(403);
+      // Данные авторизации не были предоставлены
+      return;
+    }
+    const token = auth.slice(7); // Пропускаем 'Bearer '  
     req.user = await jwt.verify(token, Buffer.from(process.env.SECRET, 'base64'));    
   } catch (e) {
     res.sendStatus(403);
