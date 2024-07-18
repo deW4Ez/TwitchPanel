@@ -33,6 +33,7 @@ app.use(async (req, res, next) => {
     const token = auth.slice(7); // Пропускаем 'Bearer '  
     req.user = await jwt.verify(token, Buffer.from(process.env.SECRET, 'base64'));    
   } catch (e) {
+    console.log(e)
     res.sendStatus(403);
     // Неверный или истекший токен
     return;
