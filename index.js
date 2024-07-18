@@ -24,7 +24,7 @@ app.use(cors());
 app.use(async (req, res, next) => {
   try {
     const auth = req.get('Authorization');
-    console.log(auth)
+    
     if (!auth.startsWith('Bearer ')) {
       res.sendStatus(403);
       // Данные авторизации не были предоставлены
@@ -33,7 +33,7 @@ app.use(async (req, res, next) => {
     const token = auth.slice(7); // Пропускаем 'Bearer '  
     req.user = await jwt.verify(token, Buffer.from(process.env.SECRET, 'base64'));    
   } catch (e) {
-    console.log(e)
+    
     res.sendStatus(403);
     // Неверный или истекший токен
     return;
