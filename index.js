@@ -21,26 +21,26 @@ const tempDB = []
 app.use(express.json());
 app.use(cors());
 
-app.use(async (req, res, next) => {
-  try {
-    const auth = req.get('Authorization');
+// app.use(async (req, res, next) => {
+//   try {
+//     const auth = req.get('Authorization');
     
-    if (!auth.startsWith('Bearer ')) {
-      res.sendStatus(403);
-      // Данные авторизации не были предоставлены
-      return;
-    }
-    const token = auth.slice(7); // Пропускаем 'Bearer '  
-    req.user = await jwt.verify(token, Buffer.from(process.env.SECRET, 'base64'));    
-  } catch (e) {
+//     if (!auth.startsWith('Bearer ')) {
+//       res.sendStatus(403);
+//       // Данные авторизации не были предоставлены
+//       return;
+//     }
+//     const token = auth.slice(7); // Пропускаем 'Bearer '  
+//     req.user = await jwt.verify(token, Buffer.from(process.env.SECRET, 'base64'));    
+//   } catch (e) {
     
-    res.sendStatus(403);
-    // Неверный или истекший токен
-    return;
-  }
+//     res.sendStatus(403);
+//     // Неверный или истекший токен
+//     return;
+//   }
 
-  next();
-})
+//   next();
+// })
 
 app.post('/list', async (req,res) =>{
   try {    
