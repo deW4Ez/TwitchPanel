@@ -21,26 +21,27 @@ const tempDB = []
 app.use(express.json());
 app.use(cors());
 
-// app.use(async (req, res, next) => {
-//   try {
-//     const auth = req.get('Authorization');
+app.use(async (req, res, next) => {
+  try {
+    const auth = req.get('Authorization');
     
-//     if (!auth.startsWith('Bearer ')) {
-//       res.sendStatus(403);
-//       // Данные авторизации не были предоставлены
-//       return;
-//     }
-//     const token = auth.slice(7); // Пропускаем 'Bearer '  
-//     req.user = await jwt.verify(token, Buffer.from(process.env.SECRET, 'base64'));    
-//   } catch (e) {
+    if (!auth.startsWith('Bearer ')) {
+      res.sendStatus(403);
+      // Данные авторизации не были предоставлены
+      return;
+    }
+    const token = auth.slice(7); // Пропускаем 'Bearer ' 
+    console.log(token)
+    req.user = await jwt.verify(token, Buffer.from(process.env.SECRET, 'base64'));    
+  } catch (e) {
     
-//     res.sendStatus(403);
-//     // Неверный или истекший токен
-//     return;
-//   }
+    res.sendStatus(403);
+    // Неверный или истекший токен
+    return;
+  }
 
-//   next();
-// })
+  next();
+})
 
 app.post('/list', async (req,res) =>{
   try {    
@@ -59,7 +60,7 @@ app.post('/list', async (req,res) =>{
 
 app.get('/list', async (req, res) =>{
   const {channel_id} = req.user
-
+  console.log(channel_id)
   try {    
     await client.connect();    
     const collection = await client.db("TwitchPanel").collection("UsersLists");
@@ -81,6 +82,6 @@ app.get('/list', async (req, res) =>{
    
 })
 
-app.listen(process.env.PORT || 8080,
-  console.log('Сервер запущен с портом 8080')
+app.listen(process.env.PORT || 8081,
+  console.log('Сервер запущен с портом 8081')
 );
